@@ -1,0 +1,43 @@
+# This file was generated from the unicorn.service.erb template.
+# It is deployed on unicorn:setup. 
+# To customize this template run the task unicorn:generate and modify locally
+<% application = fetch :application_name, 'application' %>
+[Unit]
+Description=<%= application %> Unicorn service
+After=network.target
+
+[Service]
+Type=forking
+WorkingDirectory=/home/<%= application %>/app/
+
+<%# Use the defined user and fall back to the application name -%> 
+User=<%= fetch :user, application %> 
+
+#
+# How to actually start Unicorn?
+#
+# Needs to be adjusted for rbenv.
+# 
+# Open question: would it be better to use a fully defined path? /usr/share/rvm/bin/rvm
+#
+ExecStart=/usr/share/rvm/bin/rvm in /home/<%= application %>/app/current/ do bundle exec unicorn -D -c /home/<%= application %>/app/current/config/unicorn.rb -E production
+
+# How to identify in the logs:
+SyslogIdentifier=unicorn-<%= application %>
+
+# stop by sending only the main process a SIGQUIT signal
+KillMode=process
+KillSignal=SIGQUIT
+
+# Enable reloading unicorn via HUP signal
+ExecReload=/bin/kill -HUP $MAINPID
+
+# Try to restart the service after 1 second
+Restart=always
+RestartSec=1
+
+# Path to Unicorn PID file (as specified in unicorn configuration file)
+PIDFile=/home/<%= application %>/app/shared/unicorn.pid
+
+[Install]
+WantedBy=multi-user.target
