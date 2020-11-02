@@ -53,8 +53,7 @@ namespace :unicorn do
   desc "Start the Unicorn systemd service on the remote server"
   task :start do
     elevate
-    # Start the service and if it fails print the error information 
-    # command %(stty $(stty size | sed 's/ / cols /;s/^/rows /'))
+    # Start the service and if it fails print the error information
     command %((systemctl start #{fetch :unicorn_service_name} && systemctl status #{fetch :unicorn_service_name}) || journalctl --no-pager _SYSTEMD_INVOCATION_ID=`systemctl show -p InvocationID --value #{fetch :unicorn_service_name}`)
   end
   
