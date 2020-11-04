@@ -40,6 +40,10 @@ require 'mina/unicorn'
 
 To change the unicorn systemd service template and/or the `unicorn_conf.rb`, run `'mina unicorn:generate'`.
 
+## Todos
+
+* [ ] [Zero-downtime deployments](https://gist.github.com/c4nc/536a261a496e59033fd4b1ea450e8258)
+
 ## Contributing
 
 1. Fork it ( http://github.com/coezbek/mina-unicorn_systemd/fork )
