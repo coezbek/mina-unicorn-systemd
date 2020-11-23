@@ -43,6 +43,10 @@ To change the unicorn systemd service template and/or the `unicorn_conf.rb`, run
 
 By default `mina-unicorn_systemd` is running unicorn as a user service (`systemd --user`), but the unicorn service template also includes settings for running as a system service. To enable this, add `set :unicorn_system_or_user, 'system'` to the top of your `deploy.rb`.
 
+## Todos
+
+* [ ] [Zero-downtime deployments](https://gist.github.com/c4nc/536a261a496e59033fd4b1ea450e8258)
+
 ## Contributing
 
 1. Fork it ( http://github.com/coezbek/mina-unicorn_systemd/fork )
