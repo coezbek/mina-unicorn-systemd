@@ -9,10 +9,11 @@ After=network.target
 [Service]
 Type=forking
 WorkingDirectory=/home/<%= application %>/app/
-
+<% if !is_unicorn_user_installation? %>
 <%# Use the defined user and fall back to the application name -%> 
-User=<%= fetch :user, application %> 
+User=<%= fetch :user, application %>
 
+<% end %>
 #
 # How to actually start Unicorn?
 #
@@ -40,4 +41,8 @@ RestartSec=1
 PIDFile=/home/<%= application %>/app/shared/unicorn.pid
 
 [Install]
+<% if is_unicorn_user_installation? %>
+WantedBy=default.target
+<% else %>
 WantedBy=multi-user.target
+<% end %>
